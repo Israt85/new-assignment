@@ -14,7 +14,7 @@ const Login = () => {
         googleLogin()
         .then(result =>{
             console.log(result.user);
-            navigate(location?.state ? location.state : "/profile");
+            navigate(location?.state ? location.state : "/");
         })
         .catch(err =>{
             console.log(err);
@@ -41,7 +41,7 @@ const Login = () => {
               console.log(result.user);
 
             //   after login it'll redirect
-              navigate(location?.state ? location.state : "/profile");
+              navigate(location?.state ? location.state : "/");
             })
             .catch(err => {
               console.log(err);

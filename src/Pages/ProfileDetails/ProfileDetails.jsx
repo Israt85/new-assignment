@@ -10,7 +10,7 @@ const ProfileDetails = () => {
 
     // getting data from database
     useEffect(()=>{
-        fetch(`http://localhost:5000/user?email=${user?.email}`)
+        fetch(`https://intership-assignment-server.vercel.app/user?email=${user?.email}`)
         .then(res=>res.json())
         .then(data=>{
             console.log(data)
@@ -49,6 +49,7 @@ const ProfileDetails = () => {
     <div className="my-2 space-y-1">
         <h2 className="text-xl font-semibold sm:text-2xl">{user?.Fname} {user?.Lname} </h2>
         <p className="px-5 text-xs sm:text-base dark:dark:text-gray-400">{user?.username}</p>
+        <p>{user?.gender}</p>
     </div>
     <div className="flex justify-center pt-2 space-x-4 align-center">
         <h2>{user?.city} | {user?.address} | {user?.state} | {user?.zip}</h2>

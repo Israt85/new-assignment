@@ -14,8 +14,8 @@ import ProfileDetails from './Pages/ProfileDetails/ProfileDetails';
 // All the routers
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <div>Hello</div>,
+    path: '/',
+    element:<ProfileDetails></ProfileDetails>,
   },
   {
     path:"/login",
@@ -25,10 +25,6 @@ const router = createBrowserRouter([
     path:"/signup",
     element: <SignUp/>
   },
-  {
-    path: '/profile',
-    element:<ProfileDetails></ProfileDetails>
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

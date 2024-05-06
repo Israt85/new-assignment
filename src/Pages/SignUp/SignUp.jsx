@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
-import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 
 const SignUp = () => {
@@ -10,7 +9,10 @@ const SignUp = () => {
     const location = useLocation();
     const navigate= useNavigate()
     const [pass,setPass] = useState("")
-    
+
+
+
+    // Submit the signup form
     const handleSignUp = e => {
         e.preventDefault();
         const form = e.target;
@@ -33,6 +35,7 @@ const SignUp = () => {
       }
         console.log(obj);
     
+        // checking the password
         if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(obj.password)) {
             setPass("Minimum six characters, at least one letter, one number and one special character");
             return; 
@@ -40,12 +43,15 @@ const SignUp = () => {
     
        
         setPass("");
-      
+
+    //   user will be signup
         userSignUp(obj.email, obj.password)
             .then(result => {
                 console.log(result.user);
-                navigate(location?.state ? location.state : "/profile")
-                fetch('http://localhost:5000/user', {
+                navigate(location?.state ? location.state : "/")
+
+                // using will be added to the database
+                fetch('https://intership-assignment-server.vercel.app/user', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -55,6 +61,8 @@ const SignUp = () => {
         .then(res => res.json())
         .then(data => {
             console.log(data);
+
+            // if added to the database it'll give a alert
             if (data.insertedId) {
                 Swal.fire({
                     position: "top-center",
@@ -63,28 +71,13 @@ const SignUp = () => {
                     showConfirmButton: false,
                     timer: 1500
                   });
+
+                //   form will be reset
                 form.reset();
             }
-        });
-    
-                // updateUserProfile(obj.username, obj.profile)
-                //     .then(result => {
-                //         console.log(result.user);
-                        
-                //         return;
-                //     })
-                //     .catch(err => {
-                //         console.log(err);
-                //     });
+        })
     
             })
-            // .catch(err => {
-            //     console.error(err);
-            // });
-
-      
-
-
 
     };
 
@@ -146,9 +139,16 @@ const SignUp = () => {
                 <div className="col-span-full sm:col-span-3">
 					<label className="text-sm">Password</label>
 					<input  name='password' type="password" placeholder="Password" className="w-full rounded-md focus:ring focus:ri focus:ri border-gray-700 text-gray-900" />
+                    <div>
+                                {
+                                    pass && <p className="text-red-500 font-bold text-2xl">{pass}</p>
+                                }
+                            </div>
 				</div>
+               
 			</div>
 		</fieldset>
+        
 		<fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm bg-gray-900">
 			<div className="space-y-2 col-span-full lg:col-span-1">
 				<p className="font-medium">Profile</p>
@@ -163,12 +163,13 @@ const SignUp = () => {
 					<textarea id="bio" name='bio' placeholder="" className="w-full rounded-md focus:ring focus:ri focus:ri border-gray-700 text-gray-900"></textarea>
 				</div>
 				<div className="col-span-full">
-					<label  className="text-sm">Upload profile Photo : </label>
-					<input type="file" name="profile" id="profile" />
+					<label  className="text-sm">Profile Photo : </label>
+					<input className='rounded text-black' type="text" name="profile" id="profile" placeholder='your profile url' />
 				</div>
 				<div className="col-span-full">
-					<label  className="text-sm">Upload cover Photo : </label>
-					<input type="file" name="cover" id="cover" />
+					<label  className="text-sm">Cover Photo : </label>
+					<input className='rounded text-black' type="text" name="cover" id="cover" placeholder='Your cover photo url' />
+                    
 				</div>
                
 			</div>
@@ -176,6 +177,7 @@ const SignUp = () => {
             <button type="submit" className="px-8 font-semibold rounded text-white border border-white">Submit</button>
             </div>
 		</fieldset>
+        
        
 	</form>
 </section>
